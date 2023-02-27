@@ -29,6 +29,6 @@ class Api::V1::CarsController < ApplicationController
   private
 
   def car_params
-    params.require(:car).permit(:name, :model, :photo)
+    params.require(:car).permit(:name, :model, :photo, :price, :description)
   end
 end
