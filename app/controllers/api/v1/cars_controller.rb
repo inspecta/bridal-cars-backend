@@ -1,11 +1,14 @@
 class Api::V1::CarsController < ApplicationController
-  # Show all cars
   def index
     @cars = Car.all
     render json: @cars
   end
 
-  # Add a car
+  def show
+    @car = Car.find(params[:id])
+    render json: @car
+  end
+
   def new
     @car = Car.new
   end
@@ -16,7 +19,6 @@ class Api::V1::CarsController < ApplicationController
     render json: @car
   end
 
-  # Delete a car
   def destroy
     @cars = Car.all
     @car = Car.find(params[:id])
@@ -24,7 +26,6 @@ class Api::V1::CarsController < ApplicationController
     render json: @cars
   end
 
-  # required parameters
   private
 
   def car_params
