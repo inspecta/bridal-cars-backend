@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
   
   # car api endpoints
-  # post '/api/v1/', to: 'api/v1#create'
 
   namespace :api do
     namespace :v1 do
