@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_27_073009) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_27_095253) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cars", force: :cascade do |t|
+    t.string "name"
+    t.string "model"
+    t.text "photo", default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.needpix.com%2Fphoto%2Fdownload%2F178617%2Frace-car-logo-symbol-speed-coupe-speedy-car-auto-race&psig=AOvVaw3fXJ7bfq_fA43CsizkifQC&ust=1677571596590000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKit5Kuftf0CFQAAAAAdAAAAABAJ"
+    t.boolean "reserved", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "price"
+    t.text "description"
+  end
+
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
