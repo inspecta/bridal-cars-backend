@@ -7,4 +7,5 @@ class Car < ApplicationRecord
                           length: { minimum: 5, too_short: 'Car description must more than 5 characters' }
 
   # Associations
+  has_one :reservation
 end
