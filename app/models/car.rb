@@ -5,5 +5,4 @@ class Car < ApplicationRecord
   validates :price, presence: true
   validates :description, presence: true,
                           length: { minimum: 5, too_short: 'Car description must more than 5 characters' }
-
 end
