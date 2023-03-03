@@ -1,9 +1,7 @@
 class Api::V1::ReservationsController < ApplicationController
   def index
-    # jwt_payload = JWT.decode(request.headers['Authorization'].split[1], Rails.application.secret_key_base).first
-    # current_user = User.find(jwt_payload['sub'])
     reservations = Reservation.where(user_id: current_user.id)
-
+    response = []
     reservations.each do |res|
       response << {
         id: res.id,
@@ -14,8 +12,9 @@ class Api::V1::ReservationsController < ApplicationController
         car: CarSerializer.new(Car.find(res.car_id))
         
       }
-      render json: response, status: 200
     end
+      render json: response, status: 200
+
   end
 
   def create
