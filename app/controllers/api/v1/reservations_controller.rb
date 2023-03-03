@@ -1,8 +1,8 @@
 class Api::V1::ReservationsController < ApplicationController
   def index
-    jwt_payload = JWT.decode(request.headers['Authorization'].split[1], Rails.application.secret_key_base).first
-    current_user = User.find(jwt_payload['sub'])
-    reservations = Reservation.where(user_id: current_user)
+    # jwt_payload = JWT.decode(request.headers['Authorization'].split[1], Rails.application.secret_key_base).first
+    # current_user = User.find(jwt_payload['sub'])
+    reservations = Reservation.where(user_id: current_user.id)
 
     reservations.each do |res|
       response << {
@@ -15,9 +15,25 @@ class Api::V1::ReservationsController < ApplicationController
         
       }
       render json: response, status: 200
+    end
   end
 
   def create
+    reservation = Reservation.new(reservation_params)
+    response = {
+      
+      city: reservation.city,
+      user_id: reservation.user_id,
+      duration: reservation.duration,
+      date_reserved: reservation.reservation_date,
+      car: CarSerializer.new(Car.find(reservation.car_id))
+    }
+
+    if reservation.save
+      render json: response, status: 200
+    else
+      render json: { errors: 'Reservation not created' }, status: :unprocessable_entity
+    end
   end
 
   private
