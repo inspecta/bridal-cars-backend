@@ -19,6 +19,15 @@ class Api::V1::CarsController < ApplicationController
     render json: @car
   end
 
+  def update
+    @car = Car.find(params[:id])
+    if @car.update(car_params)
+      render json: { message: ' Car is successfully updated!' }
+    else
+      render json: @car.errors, status: unprocessable_entity
+    end
+  end
+
   def destroy
     @cars = Car.all
     @car = Car.find(params[:id])
@@ -29,6 +38,6 @@ class Api::V1::CarsController < ApplicationController
   private
 
   def car_params
-    params.require(:car).permit(:name, :model, :photo, :price, :description)
+    params.require(:car).permit(:name, :model, :photo, :price, :description, :reserved)
   end
 end
