@@ -22,6 +22,8 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV['DB_HOST'] %>
+
 
 development:
   <<: *default
@@ -31,14 +33,6 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-<<<<<<< HEAD
-  # username: postgres
-
-  # The password associated with the postgres role (username).
-  # password: 1234
-=======
-  # The password associated with the postgres role (username).
->>>>>>> 42f7468 (Add deployment files)
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -89,6 +83,7 @@ test:
 #
 production:
   <<: *default
-  database: car_api_production
-  username: car_api
-  password: <%= ENV["CAR_API_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  # database: car_api_production
+  # username: car_api
+  # password: <%= ENV["CAR_API_DATABASE_PASSWORD"] %>
