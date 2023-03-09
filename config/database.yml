@@ -31,10 +31,14 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
+<<<<<<< HEAD
   # username: postgres
 
   # The password associated with the postgres role (username).
   # password: 1234
+=======
+  # The password associated with the postgres role (username).
+>>>>>>> 42f7468 (Add deployment files)
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
