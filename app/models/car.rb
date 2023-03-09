@@ -1,4 +1,5 @@
 class Car < ApplicationRecord
+  has_one :reservation, dependent: :destroy
   # validations
   validates :name, presence: true, length: { minimum: 2, too_short: 'Car name must more than 2 characters' }
   validates :model, presence: true
