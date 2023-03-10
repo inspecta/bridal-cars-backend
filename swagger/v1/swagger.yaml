@@ -1,0 +1,307 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/users/":
+    post:
+      summary: Register a user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '200':
+          description: User registered successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+                required:
+                - username
+                - email
+                - password
+        '500':
+          description: Email already exists.
+        '422':
+          description: Unprocessable Entity
+  "/users/sign_in":
+    post:
+      summary: Login user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '200':
+          description: User signed in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                      message:
+                        type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      created_at:
+                        type: string
+                        format: date_time
+                      updated_at:
+                        type: string
+                        format: date_time
+                      jti:
+                        type: string
+                      username:
+                        type: string
+        '401':
+          description: unauthorized
+  "/users/sign_out":
+    delete:
+      summary: Logout user
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: User logged out
+  "/cars":
+    get:
+      summary: Retrieves all the bridal cars available
+      tags:
+      - Cars
+      responses:
+        '200':
+          description: All cars retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    model:
+                      type: string
+                    photo:
+                      type: string
+                    price:
+                      type: integer
+                    description:
+                      type: string
+                    reserved:
+                      type: boolean
+                  required:
+                  - name
+                  - model
+                  - photo
+                  - price
+                  - description
+        '401':
+          description: User is not authenticated
+  "/cars/{car_id}":
+    get:
+      summary: Retrieves details of a particular car
+      tags:
+      - Cars
+      parameters:
+      - name: car_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Car found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  model:
+                    type: string
+                  photo:
+                    type: string
+                  price:
+                    type: integer
+                  description:
+                    type: string
+                  reserved:
+                    type: boolean
+                required:
+                - name
+                - model
+                - photo
+                - price
+                - description
+        '404':
+          description: Car not found
+  "/cars/":
+    post:
+      summary: Add a new car
+      tags:
+      - Cars
+      parameters:
+      - name: name
+        in: query
+        description: Name of the car
+        schema:
+          type: string
+      - name: model
+        in: query
+        description: Model of the car
+        schema:
+          type: string
+      - name: price
+        in: query
+        description: Reserve fare
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: Description of the car
+        schema:
+          type: string
+      - name: photo
+        in: query
+        description: Car photo URL
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Car added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  model:
+                    type: string
+                  price:
+                    type: integer
+                  description:
+                    type: string
+                  photo:
+                    type: string
+                required:
+                - name
+                - model
+                - price
+                - description
+                - photo
+        '404':
+          description: Car not added
+  "/cars/{id}":
+    delete:
+      summary: Delete a car
+      tags:
+      - Cars
+      parameters:
+      - name: car_id
+        in: path
+        description: Id of the car to delete
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Car deleted.
+        '404':
+          description: Car not found
+  "/reservations":
+    post:
+      summary: Reserve a car
+      tags:
+      - Reserve
+      parameters: []
+      responses:
+        '201':
+          description: car reserved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  car:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      model:
+                        type: string
+                      photo:
+                        type: string
+                      price:
+                        type: integer
+                      description:
+                        type: string
+                    required:
+                    - id
+                    - name
+                    - model
+                    - photo
+                    - price
+                    - description
+                    - reserved
+                  reservation:
+                    type: object
+                    properties:
+                      car_id:
+                        type: integer
+                      city:
+                        type: string
+                      duration:
+                        type: integer
+                      reservation_date:
+                        type: string
+                        format: date-time
+                      user_id:
+                        type: integer
+                    required:
+                    - car_id
+                    - city
+                    - duration
+                    - reservation_date
+                    - user_id
+                required:
+                - car
+                - reservation
+        '404':
+          description: Car is not found
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
